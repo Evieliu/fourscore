@@ -4,17 +4,17 @@
       "url": "0AngasJS3wnwRdDRRT1M2LWVOa1YwZHFoR3dDWHRIbHc",
       "type": "google"
     },
-    "gridSize": 10,
+    "gridSize": 20,
     "xAxis": [
-      "Less X",
-      "More X"
+      "High expectation",
+      "Low expectation"
     ],
     "yAxis": [
-      "More Y",
-      "Less Y"
+      "Support",
+      "Not care"
     ],
     "gridTarget": "grid",
-    "commentsTarget": "commentsId",
+    "commentsTarget": "comments",
     "colors": {
       "name": "Reds",
       "number": 5
@@ -35,7 +35,7 @@
       "field": "entry.1333082821"
     },
     {
-      "name": "Your favorite soccer team in 2014 World Cup",
+      "name": "Team",
       "required": true,
       "type": "select",
       "field": "entry.1091901276",
@@ -46,7 +46,7 @@
       ]
     },
     {
-      "name": "Will you root for the US team if it's playing against your favorite team?",
+      "name": "Fan",
       "required": true,
       "type": "radio",
       "field": "entry.394932762",
@@ -54,6 +54,13 @@
         "Yes",
         "No"
       ]
+    },
+
+     {
+      "name": "Comment",
+      "required": true,
+      "type": "text",
+      "field": "entry.151283011"
     }
   ]
 }
