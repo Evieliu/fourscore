@@ -210,6 +210,15 @@ var FourScore = function(opt){
 
     }
 
+      $ (".fs-cell").hover(function(){
+                                          
+                                          var location = $(this).attr("data-submission-value");
+                                          console.log(location);
+                                          
+                                          $("#window").html("haha");
+
+                                                });
+
     if (localStorage.getItem('fs-cell')) {
 
       $('div[data-cell-id="' + JSON.parse(localStorage.getItem('fs-cell')).join('-') + '"]').addClass('saved');
