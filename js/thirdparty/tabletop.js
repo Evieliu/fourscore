@@ -65,7 +65,7 @@
     this.debug = !!options.debug;
     this.query = options.query || '';
     this.orderby = options.orderby;
-    this.endpoint = options.endpoint || "https://spreadsheets.google.com";
+    this.endpoint = options.endpoint || "https://docs.google.com";
     this.singleton = !!options.singleton;
     this.simple_url = !!options.simple_url;
     this.callbackContext = options.callbackContext;
@@ -111,7 +111,7 @@
     this.models = {};
     this.model_names = [];
 
-    this.base_json_path = "/feeds/worksheets/" + this.key + "/public/basic?alt=";
+    this.base_json_path = "/spreadsheet/ccc?key=" + this.key
 
     if (inNodeJS || supportsCORS) {
       this.base_json_path += 'json';

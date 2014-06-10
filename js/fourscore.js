@@ -6,30 +6,30 @@ var FourScore = function(opt){
 
 /********************************/
 
-	function range(start, stop, step) {
-	  if (arguments.length < 3) {
-	    step = 1;
-	    if (arguments.length < 2) {
-	      stop = start;
-	      start = 0;
-	    }
-	  }
-	  if ((stop - start) / step === Infinity) throw new Error('infinite range');
-	  var range = [],
-	       k = range_integerScale(Math.abs(step)),
-	       i = -1,
-	       j;
-	  start *= k, stop *= k, step *= k;
-	  if (step < 0) while ((j = start + step * ++i) > stop) range.push(j / k);
-	  else while ((j = start + step * ++i) < stop) range.push(j / k);
-	  return range;
-	};
+  function range(start, stop, step) {
+    if (arguments.length < 3) {
+      step = 1;
+      if (arguments.length < 2) {
+        stop = start;
+        start = 0;
+      }
+    }
+    if ((stop - start) / step === Infinity) throw new Error('infinite range');
+    var range = [],
+         k = range_integerScale(Math.abs(step)),
+         i = -1,
+         j;
+    start *= k, stop *= k, step *= k;
+    if (step < 0) while ((j = start + step * ++i) > stop) range.push(j / k);
+    else while ((j = start + step * ++i) < stop) range.push(j / k);
+    return range;
+  };
 
-	function range_integerScale(x) {
-	  var k = 1;
-	  while (x * k % 1) k *= 10;
-	  return k;
-	}
+  function range_integerScale(x) {
+    var k = 1;
+    while (x * k % 1) k *= 10;
+    return k;
+  }
 
   var isArray = Array.isArray || $.isArray;
 
@@ -78,15 +78,15 @@ var FourScore = function(opt){
     return max + 1; // Add one because this returns the highest index, but we want to know the length
   }
 
-	function makeGridArray(data, size) {
-		var extent;
-		// If they haven't specified a custom input range then make it a one-to-one based on grid size
+  function makeGridArray(data, size) {
+    var extent;
+    // If they haven't specified a custom input range then make it a one-to-one based on grid size
     if (!data.inputExtents){
       extent = Math.floor(size/2);
       data.inputExtents = [extent * -1, extent];
     }
-		var userValueToGridIdx = new Scale(data.inputExtents[0], data.inputExtents[1], 0, size - 1),
-				grid = $.map(
+    var userValueToGridIdx = new Scale(data.inputExtents[0], data.inputExtents[1], 0, size - 1),
+        grid = $.map(
           range(0,size),
           function(c) {
             return [$.map(range(0,size),
@@ -101,43 +101,43 @@ var FourScore = function(opt){
           }
         ),
         grid_x,
-				grid_y,
-				grid_xy,
-				max = 0,
-				cell;
+        grid_y,
+        grid_xy,
+        max = 0,
+        cell;
 
     var grid_max = findGridMax(data.submissions, userValueToGridIdx);
     var possible_input_extent = Math.round((grid_max + 1) / 2);
 
-		for (var i = 0; i < data.submissions.length; i++){
-			grid_x = Math.round(userValueToGridIdx(data.submissions[i].x));
-			grid_y = Math.round(userValueToGridIdx(data.submissions[i].y));
-			grid_xy = [grid_x, grid_y];
+    for (var i = 0; i < data.submissions.length; i++){
+      grid_x = Math.round(userValueToGridIdx(data.submissions[i].x));
+      grid_y = Math.round(userValueToGridIdx(data.submissions[i].y));
+      grid_xy = [grid_x, grid_y];
       try {
-  			cell = grid[grid_xy[1]][grid_xy[0]];
-  			cell.count++;
-  			cell.ids.push(data.submissions[i].uid);
-  			if (cell.count > max) max = cell.count;
+        cell = grid[grid_xy[1]][grid_xy[0]];
+        cell.count++;
+        cell.ids.push(data.submissions[i].uid);
+        if (cell.count > max) max = cell.count;
       } catch(e){
         throw 'Input data outside of grid range. Please make your grid larger than ' + grid_max + ' or manually add inputExtents in your config file that cover the range of input values. Perhaps `inputExtents: [-'+possible_input_extent+','+possible_input_extent+'],` will work for you.';
       }
-		}
-		return {grid: grid, extents: [0, max]}
-	}
+    }
+    return {grid: grid, extents: [0, max]}
+  }
 
-	function convertNameToSelector(selector){
-		if (typeof selector == 'string') {
+  function convertNameToSelector(selector){
+    if (typeof selector == 'string') {
 
-			if (selector.match(/#?[A-Za-z][A-Za-z0-9_-]+$/)) {
-				return $('#' + selector.replace(/^#/,''));
-			}
-			return $(selector);
-		}
+      if (selector.match(/#?[A-Za-z][A-Za-z0-9_-]+$/)) {
+        return $('#' + selector.replace(/^#/,''));
+      }
+      return $(selector);
+    }
 
-		//ADD: if it's an element, return $(el);
+    //ADD: if it's an element, return $(el);
 
-		return selector;
-	}
+    return selector;
+  }
 
   function colorScaleFactory($grid, color_info, extents){
     var color_brewer_name;
@@ -163,7 +163,7 @@ var FourScore = function(opt){
     return fn
   }
 
-	function gridArrayToMarkup(grid_selector, color_info, Grid){
+  function gridArrayToMarkup(grid_selector, color_info, Grid){
     $grid = convertNameToSelector(grid_selector);
     var grid = Grid.grid,
         extents = Grid.extents,
@@ -180,35 +180,35 @@ var FourScore = function(opt){
 
     var colorScale = colorScaleFactory($grid, color_info, extents); // This will take a value and return a hex code
 
-		// For every row in the grid, make a row element
-		for (var i = 0; i < grid.length; i++ ){
+    // For every row in the grid, make a row element
+    for (var i = 0; i < grid.length; i++ ){
 
-			$('<div class="fs-row"></div>').appendTo($grid);
+      $('<div class="fs-row"></div>').appendTo($grid);
 
-			// Now make a cell with the aggregate data
-			for (var j = 0; j < grid.length; j++){
+      // Now make a cell with the aggregate data
+      for (var j = 0; j < grid.length; j++){
 
-				square_value     = grid[i][j].count;
-				submission_value = JSON.stringify(grid[i][j].submission_value);
-				ids              = JSON.stringify(grid[i][j].ids);
+        square_value     = grid[i][j].count;
+        submission_value = JSON.stringify(grid[i][j].submission_value);
+        ids              = JSON.stringify(grid[i][j].ids);
         fill_color       = colorScale(square_value);
 
-				$('<div class="fs-cell"></div>').css("width",((100 / grid.length) + "%")) // Subtract one for the margin on the right between cells
+        $('<div class="fs-cell"></div>').css("width",((100 / grid.length) + "%")) // Subtract one for the margin on the right between cells
                                         .attr('data-submission-value', submission_value)
-																			  .attr('data-ids', ids)
-																			  .attr('data-cell-id', grid[i][j].submission_value[0] + '-' + grid[i][j].submission_value[1])
-																			  .css('background-color', fill_color)
+                                        .attr('data-ids', ids)
+                                        .attr('data-cell-id', grid[i][j].submission_value[0] + '-' + grid[i][j].submission_value[1])
+                                        .css('background-color', fill_color)
                                         .toggleClass('fs-axis-right',(!(grid.length % 2) && j == grid.length/2 - 1))
                                         .toggleClass('fs-axis-left',(!(grid.length % 2) && j == grid.length/2))
                                         .toggleClass('fs-axis-bottom',(!(grid.length % 2) && i == grid.length/2 - 1))
                                         .toggleClass('fs-axis-top',(!(grid.length % 2) && i == grid.length/2))
                                         .appendTo($($grid.find('.fs-row')[i]));
 
-			}
+      }
 
       $('<div class="clear"></div>').appendTo($($grid.find('.fs-row')[i]));
 
-		}
+    }
 
     if (localStorage.getItem('fs-cell')) {
 
@@ -222,12 +222,12 @@ var FourScore = function(opt){
       $cells.css("height",$cells.first().outerWidth()+"px");
     });
 
-		$grid.show();
+    $grid.show();
 
     $cells.css("height",$cells.first().outerWidth()+"px");
 
 
-	}
+  }
 
   function addGridLabels(grid_selector, x_labels, y_labels){
     var $grid = convertNameToSelector(grid_selector);
@@ -263,11 +263,11 @@ var FourScore = function(opt){
     $('.fs-grid-label').show();
   }
 
-	function submissionsToGridMarkup(subm_data, conf){
-		var Grid = makeGridArray(subm_data, conf.options.gridSize);
-		gridArrayToMarkup(conf.options.gridTarget, conf.options.colors, Grid);
+  function submissionsToGridMarkup(subm_data, conf){
+    var Grid = makeGridArray(subm_data, conf.options.gridSize);
+    gridArrayToMarkup(conf.options.gridTarget, conf.options.colors, Grid);
     addGridLabels(conf.options.gridTarget, conf.options.xAxis, conf.options.yAxis)
-	}
+  }
 
   function applyCommentFilters(){
     $('.fs-comment-filter').each(function(i, el){
@@ -284,7 +284,7 @@ var FourScore = function(opt){
     })
   }
 
-	function bindHandlers(formExists){
+  function bindHandlers(formExists){
 
 
     //Listeners for quadrant filters
@@ -309,7 +309,7 @@ var FourScore = function(opt){
         top: e.pageY+2 - gridOffset.top
       }).addClass('open');
 
-		});
+    });
 
     //Move the tooltip
     $grid.on('mousemove.tooltip', '.fs-cell', function(e){
@@ -323,12 +323,12 @@ var FourScore = function(opt){
     });
 
     //Close the tooltip
-		$grid.on('mouseleave.tooltip', function(){
-			$tooltip.removeClass('open');
-		});
+    $grid.on('mouseleave.tooltip', function(){
+      $tooltip.removeClass('open');
+    });
 
     //Open the form when a cell is clicked, or submit the form if there are no extra fields
-		$grid.on('click.form', '.fs-cell', function(e){
+    $grid.on('click.form', '.fs-cell', function(e){
 
       var $this = $(this),
           gridOffset =  $grid.offset(),
@@ -360,9 +360,9 @@ var FourScore = function(opt){
 
       $grid.addClass('open');
 
-		});
+    });
 
-	}
+  }
 
   //Take off all the grid listeners
   function unbindHandlers() {
@@ -371,9 +371,9 @@ var FourScore = function(opt){
 
   }
 
-	function updateGrid(new_data,config){
-		submissionsToGridMarkup(new_data, config);
-	}
+  function updateGrid(new_data,config){
+    submissionsToGridMarkup(new_data, config);
+  }
 
   function whichQuadrant(x, y) {
     x = +x;
@@ -465,9 +465,9 @@ var FourScore = function(opt){
 
   }
 
-	function createViz(data, config){
+  function createViz(data, config){
     // Create the Grid Viz!
-		submissionsToGridMarkup(data, config);
+    submissionsToGridMarkup(data, config);
 
     // Create the comments section
     submissionsToCommentsMarkup(data, config);
@@ -476,9 +476,9 @@ var FourScore = function(opt){
       return d.name.toLowerCase() != "x" && d.name.toLowerCase() != "y";
     }).length);
 
-	}
+  }
 
-	/*
+  /*
 
     Generate a form element based on a form item in the config options.
 
@@ -625,6 +625,7 @@ var FourScore = function(opt){
       Tabletop.init({ key: config.options.dataSource.url,
         callback: function(data) {
             stageData(data,config);
+            console.log(data)
           },
         simpleSheet: true
       });
