@@ -13,7 +13,7 @@
       "More Y",
       "Less Y"
     ],
-    "gridTarget": "gridId",
+    "gridTarget": "grid",
     "commentsTarget": "commentsId",
     "colors": {
       "name": "Reds",
