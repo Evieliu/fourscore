@@ -211,19 +211,19 @@ var FourScore = function(opt){
     }
 
       $ (".fs-cell").hover(function(){
-                                          
-                                          var location = $(this).attr("data-submission-value");
-                                          console.log(location);
-                                          
-                                          $("#window").html("haha");
-
-                                                });
+        var location = $(this).attr("data-submission-value");
+        var locationX = location.replace("[", "").replace("]", "").split(",")[0]
+        var locationY = location.replace("[", "").replace("]", "").split(",")[1]
+        console.log(locationY);
+      });
 
     if (localStorage.getItem('fs-cell')) {
 
       $('div[data-cell-id="' + JSON.parse(localStorage.getItem('fs-cell')).join('-') + '"]').addClass('saved');
 
     }
+
+
 
     $cells = $grid.find('div.fs-cell');
 
@@ -419,8 +419,12 @@ var FourScore = function(opt){
 
       // Hide it so that it renders faster
       $comments_container.hide();
+
+      $(".total-submitted-comments").html("Filter " + submissions.length + " comments")
+
       // Add comments
       for (var i = 0; i < submissions.length; i++) {
+
         comment_markup = commentTemplateFactory(submissions[i]);
         $comments_container.append(comment_markup);
       }
@@ -576,6 +580,7 @@ var FourScore = function(opt){
     Called upon successful form submission
   */
   function submitted(x,y,config) {
+
 
     try {
       //Big random number into localStorage to mark that they submitted it
