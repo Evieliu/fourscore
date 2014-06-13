@@ -9,8 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="css/fs-base.css">
 	<link rel="stylesheet" type="text/css" href="css/fs-theme.css">
 </head>
-<body>
-<img src="http://ecsonline.org/wp-content/uploads/2013/09/kpcc-logo.png">
+<body>s
 	<div id="fs-wrapper">
 		<div id="grid" width="600px;"></div>
 		<div id="form">
@@ -31,18 +30,24 @@
 		</div>
 	</div>
 
-	<div id="window">lalala</div>
 
 	<!-- Edit this template or the associated styles to show comments -->
 	<script type="text/template" id="fs-comment-template" data-template-type="underscore">
-	    <div class="fs-comment-container">
-	        <div class="fs-mini-map"></div>
-	        <div class="fs-name"><%= willyourootfortheusteamifitsplayingagainstyourfavoriteteam %></div>
-	        <div class="fs-comment"><%= whatsyouropinion %></div>
-	        <div class="fs-comment"><%= yourfavoritesoccerteamin2014worldcup %></div>
-	        <div class="fs-comment"><%= timestamp %></div>
-	    </div>
+		<div id="inner_comments">
+		    <div class="fs-comment-container" id="cell_<%= x %>_<%= y %>">
+		        <div class="fs-mini-map"></div>
+		        <div class="fs-name"><%= willyourootfortheusteamifitsplayingagainstyourfavoriteteam %></div>
+		        <div class="fs-comment"><%= whatsyouropinion %></div>
+		        <div class="fs-comment"><%= yourfavoritesoccerteamin2014worldcup %></div>
+		        <div class="fs-comment"><%= timestamp %></div>
+		        <div class="fs-comment"><%= x %></div>
+		        <div class="fs-comment"><%= y %></div>
+		    </div>
+		</div>
 	</script>
+
+	
+
 
 	<!-- jQuery is required -->
 	<script src="js/thirdparty/jquery.1.10.2.min.js"></script>

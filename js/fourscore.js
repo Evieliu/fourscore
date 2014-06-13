@@ -6,6 +6,7 @@ var FourScore = function(opt){
 
 /********************************/
 
+
   function range(start, stop, step) {
     if (arguments.length < 3) {
       step = 1;
@@ -210,12 +211,48 @@ var FourScore = function(opt){
 
     }
 
-      $ (".fs-cell").hover(function(){
-        var location = $(this).attr("data-submission-value");
-        var locationX = location.replace("[", "").replace("]", "").split(",")[0]
-        var locationY = location.replace("[", "").replace("]", "").split(",")[1]
-        console.log(locationY);
+      $ (".fs-cell").mouseenter(function(){
+            var location = $(this).attr("data-submission-value");
+            var locationX = location.replace("[", "").replace("]", "").split(",")[0]
+            var locationY = location.replace("[", "").replace("]", "").split(",")[1]
+            
+            //$(".fs-comment-container").hide();
+
+            $(".fs-comment-container").each(function(){
+            
+                if (this.id == "cell_" + locationX + "_" + locationY)
+
+                    { $(".fs-comment-container").hide();
+                      console.log("match")
+                      //var others = $(".fs-comment-container").not($(this));
+                      //console.log(others);
+                      $ (this).show();
+                      var idNumber = this.id;                               
+                    }               
+
+                $(".fs-comment-container").each(function(){
+                    if (this.id == idNumber)
+                        { $(this).show(); }
+                });
+               
+             });
+
+    });
+
+
+      $ (".fs-cell").mouseout(function(){
+            var location = $(this).attr("data-submission-value");
+            var locationX = location.replace("[", "").replace("]", "").split(",")[0]
+            var locationY = location.replace("[", "").replace("]", "").split(",")[1]
+        
+       
+            $(".fs-comment-container").each(function(){
+                  if (this.id == "cell_" + locationX + "_" + locationY)
+                      { $ (".fs-comment-container").show();}
+            });     
+
       });
+      
 
     if (localStorage.getItem('fs-cell')) {
 
@@ -615,10 +652,12 @@ var FourScore = function(opt){
 
   }
 
+
   /*
     Initialize everything from a set of config options
   */
   function initFromConfig(config) {
+
 
     var $form = $('<form/>').attr('target','fs-iframe'),
         $form_outer = $('<div/>').addClass('fs-form'),

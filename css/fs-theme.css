@@ -18,6 +18,11 @@ body{
   float: left;
 }
 
+#comments  {
+  height: 400px;
+  overflow: scroll;  
+}
+
 #comments-outer {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
